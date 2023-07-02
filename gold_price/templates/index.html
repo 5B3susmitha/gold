@@ -1,0 +1,60 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gold Price Prediction</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Gold Price Prediction</h1>
+    <div>
+        <label for="spx">SPX:</label>
+        <input type="number" id="spx" name="spx" step="0.01" required>
+    </div>
+    <div>
+        <label for="uso">USO:</label>
+        <input type="number" id="uso" name="uso" step="0.01" required>
+    </div>
+    <div>
+        <label for="slv">SLV:</label>
+        <input type="number" id="slv" name="slv" step="0.01" required>
+    </div>
+    <div>
+        <label for="eur_usd">EUR/USD:</label>
+        <input type="number" id="eur_usd" name="eur_usd" step="0.0001" required>
+    </div>
+    <div>
+        <button id="predictBtn">Predict</button>
+    </div>
+    <div>
+        <h2>Predicted Gold Price:</h2>
+        <p id="prediction"></p>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $("#predictBtn").click(function() {
+                var spx = $("#spx").val();
+                var uso = $("#uso").val();
+                var slv = $("#slv").val();
+                var eur_usd = $("#eur_usd").val();
+                
+                // Send the data to the backend API
+                $.ajax({
+                    url: "/predict",
+                    method: "POST",
+                    data: {
+                        spx: spx,
+                        uso: uso,
+                        slv: slv,
+                        eur_usd: eur_usd
+                    },
+                    success: function(response) {
+                        // Display the predicted gold price
+                        $("#prediction").text("$" + response.prediction);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
